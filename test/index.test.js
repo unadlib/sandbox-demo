@@ -23,6 +23,6 @@ test('test sandbox', () => {
     }
   });
   const { foo } = vm.run("module.exports = require('../src')", __filename);
-  expect(app.foo() === {}).toBeFalsy();
+  expect(app.foo() === {}).toBeFalsy(); // app.foo() is JSDOM's window.
   expect(foo() === mockWindow).toBeTruthy();
 });
