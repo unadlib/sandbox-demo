@@ -1,7 +1,7 @@
 import { NodeVM } from 'vm2';
 import { transform } from '@babel/core';
 import * as app from '../src';
-import config from '../babel.config';
+import config from '../../../babel.config';
 
 global.bar = {};
 
@@ -25,10 +25,10 @@ test('test sandbox', () => {
       }
     }
   };
-  const appInstance0 = new NodeVM(vmConfig).run("module.exports = require('../src')", __filename);
-  const appInstance1 = new NodeVM(vmConfig).run("module.exports = require('../src')", __filename);
-  expect(app.foo() === mockWindow).toBeFalsy(); // app.foo() is JSDOM's window.
-  expect(appInstance0.foo() === mockWindow).toBeTruthy();
-  expect(appInstance1.foo() === mockWindow).toBeTruthy();
-  expect(appInstance0 === appInstance1).toBeFalsy();
+  const appSandboxInstance0 = new NodeVM(vmConfig).run("module.exports = require('../src')", __filename);
+  const appSandboxInstance1 = new NodeVM(vmConfig).run("module.exports = require('../src')", __filename);
+  expect(app.foo('app') === mockWindow).toBeFalsy(); // app.foo() is JSDOM's window.
+  expect(appSandboxInstance0.foo('appSandboxInstance0') === mockWindow).toBeTruthy();
+  expect(appSandboxInstance1.foo('appSandboxInstance1') === mockWindow).toBeTruthy();
+  expect(appSandboxInstance0 === appSandboxInstance1).toBeFalsy();
 });

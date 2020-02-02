@@ -1,5 +1,9 @@
 {
   "name": "sandbox-demo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
