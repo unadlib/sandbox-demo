@@ -7,7 +7,7 @@ global.bar = {};
 
 test('test sandbox', () => {
   const mockWindow = {};
-  const vm = new NodeVM({
+  const vmConfig = {
     console: 'inherit',
     sandbox: {
       // ...global,
@@ -24,8 +24,11 @@ test('test sandbox', () => {
         './bar': require('../src/bar'), // mock without sandbox context
       }
     }
-  });
-  const { foo } = vm.run("module.exports = require('../src')", __filename);
+  };
+  const appInstance0 = new NodeVM(vmConfig).run("module.exports = require('../src')", __filename);
+  const appInstance1 = new NodeVM(vmConfig).run("module.exports = require('../src')", __filename);
   expect(app.foo() === mockWindow).toBeFalsy(); // app.foo() is JSDOM's window.
-  expect(foo() === mockWindow).toBeTruthy();
+  expect(appInstance0.foo() === mockWindow).toBeTruthy();
+  expect(appInstance1.foo() === mockWindow).toBeTruthy();
+  expect(appInstance0 === appInstance1).toBeFalsy();
 });
