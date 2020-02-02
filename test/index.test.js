@@ -20,6 +20,9 @@ test('test sandbox', () => {
       builtin: ["*"],
       context: 'sandbox',
       external: true,
+      mock: {
+        './bar': require('../src/bar'), // mock without sandbox context
+      }
     }
   });
   const { foo } = vm.run("module.exports = require('../src')", __filename);
